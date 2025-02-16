@@ -11,6 +11,8 @@ from .models import Attendance, Session, Subject
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'main_app/index.html')
 
 def login_page(request):
     if request.user.is_authenticated:

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'site_view.apps.SiteViewConfig',
 
     # My Apps
     'main_app.apps.MainAppConfig'
@@ -169,14 +170,14 @@ AUTH_USER_MODEL = 'main_app.CustomUser'
 # prod_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(prod_db)
 
-from decouple import config
+# from decouple import config
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
-EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
+# EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
+# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
+# EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
 
-ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Admin user")
-ADMIN_USER_EMAIL="kaushikmangukiya70@gmail.com"
+# ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Admin user")
+# ADMIN_USER_EMAIL="kaushikmangukiya70@gmail.com"

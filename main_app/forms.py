@@ -189,3 +189,7 @@ class EditResultForm(FormSettings):
     class Meta:
         model = StudentResult
         fields = ['session_year', 'subject', 'student', 'test', 'exam']
+        labels = {
+            'test': 'Internal Exam (Mid-Sem Exam)',
+            'exam': 'External Exam (Final Exam)',
+        }

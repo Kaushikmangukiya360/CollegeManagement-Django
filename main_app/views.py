@@ -52,10 +52,10 @@ def doLogin(request, **kwargs):
             response = json.loads(captcha_server.text)
             if response['success'] == False:
                 messages.error(request, 'Invalid Captcha. Try Again')
-                return redirect('/')
+                return redirect('/login')
         except:
             messages.error(request, 'Captcha could not be verified. Try Again')
-            return redirect('/')
+            return redirect('/login')
         
         #Authenticate
         user = EmailBackend.authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'))
@@ -69,7 +69,7 @@ def doLogin(request, **kwargs):
                 return redirect(reverse("student_home"))
         else:
             messages.error(request, "Invalid details")
-            return redirect("/")
+            return redirect("/login")
 
 
 

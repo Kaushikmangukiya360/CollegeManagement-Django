@@ -39,7 +39,7 @@
                     <h3 class="nav-link">Shri Shambhubhai V. Patel College of Computer Science and Business Management</h3>
                 </li>
                 <div class="user-panel">
-                    <a href="{% url "user_logout" %}">
+                    <a href="{% url "user_logout" %}" onclick="return confirm('Your session would be terminated.\n\nProceed?')">
                         <div class="image" style="margin: 7px;">
                             <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
                         </div>

@@ -23,7 +23,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         .login-page {
-            background-image: url("{% static 'assets/images/background.jpg' %}");
+            background-image: url("{% static 'assets\images\bg\bg-login.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -34,13 +34,13 @@
     <div class="login-box">
         <div class="login-logo">
             <img src="{% static 'assets/images/icon/logo.png' %}" alt="logo" srcset="">
-            <br><strong>Login</strong>
+            <br><strong style="color:white;">Login</strong>
 
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <!-- <p class="login-box-msg">Sign in to start your session</p> -->
+                {% comment %} <p class="login-box-msg">Sign in to start your session</p> {% endcomment %}
                 {% if messages %}
                 <div class="col-12">
                     {% for message in messages %}

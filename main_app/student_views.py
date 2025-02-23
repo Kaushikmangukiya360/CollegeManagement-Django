@@ -15,6 +15,8 @@ from .models import *
 
 
 def student_home(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     student = get_object_or_404(Student, admin=request.user)
     total_subject = Subject.objects.filter(course=student.course).count()
     total_attendance = AttendanceReport.objects.filter(student=student).count()
@@ -54,6 +56,8 @@ def student_home(request):
 
 @ csrf_exempt
 def student_view_attendance(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     student = get_object_or_404(Student, admin=request.user)
     if request.method != 'POST':
         course = get_object_or_404(Course, id=student.course.id)
@@ -87,6 +91,8 @@ def student_view_attendance(request):
 
 
 def student_apply_leave(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     form = LeaveReportStudentForm(request.POST or None)
     student = get_object_or_404(Student, admin_id=request.user.id)
     context = {
@@ -111,6 +117,8 @@ def student_apply_leave(request):
 
 
 def student_feedback(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     form = FeedbackStudentForm(request.POST or None)
     student = get_object_or_404(Student, admin_id=request.user.id)
     context = {
@@ -136,6 +144,8 @@ def student_feedback(request):
 
 
 def student_view_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     student = get_object_or_404(Student, admin=request.user)
     form = StudentEditForm(request.POST or None, request.FILES or None,
                            instance=student)
@@ -177,6 +187,8 @@ def student_view_profile(request):
 
 @csrf_exempt
 def student_fcmtoken(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     token = request.POST.get('token')
     student_user = get_object_or_404(CustomUser, id=request.user.id)
     try:
@@ -188,6 +200,8 @@ def student_fcmtoken(request):
 
 
 def student_view_notification(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     student = get_object_or_404(Student, admin=request.user)
     notifications = NotificationStudent.objects.filter(student=student)
     context = {
@@ -198,6 +212,8 @@ def student_view_notification(request):
 
 
 def student_view_result(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     student = get_object_or_404(Student, admin=request.user)
     results = StudentResult.objects.filter(student=student)
     context = {
@@ -205,3 +221,4 @@ def student_view_result(request):
         'page_title': "View Results"
     }
     return render(request, "student_template/student_view_result.html", context)
+

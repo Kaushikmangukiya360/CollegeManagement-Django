@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .EmailBackend import EmailBackend
 from .models import Attendance, Session, Subject
@@ -33,6 +35,20 @@ def login_page(request):
             return redirect(reverse("student_home"))
     return render(request, 'main_app/login.html')
 
+@csrf_exempt
+def password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        new_password = 'new_password_here'
+        print(email)
+        send_mail(
+            'Password Reset',
+            f'Your new password is: {new_password}',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+    return render(request, 'main_app/password_reset.html')
 
 def doLogin(request, **kwargs):
     if request.method != 'POST':

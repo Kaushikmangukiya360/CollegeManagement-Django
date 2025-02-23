@@ -3,7 +3,7 @@ import json
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import (HttpResponseRedirect, get_object_or_404,redirect, render)
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,7 +11,17 @@ from .forms import *
 from .models import *
 
 
+def check_user_authentication(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to access this page.")
+        return False
+    return True
+
+
 def staff_home(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
     total_students = Student.objects.filter(course=staff.course).count()
     total_leave = LeaveReportStaff.objects.filter(staff=staff).count()
@@ -26,7 +36,7 @@ def staff_home(request):
         subject_list.append(subject.name)
         attendance_list.append(attendance_count)
     context = {
-        'page_title': 'Staff Panel - ' + str(staff.admin.last_name) + ' (' + str(staff.course) + ')',
+        'page_title': f'Staff Panel - {staff.admin.last_name} ({staff.course})',
         'total_students': total_students,
         'total_attendance': total_attendance,
         'total_leave': total_leave,
@@ -38,6 +48,9 @@ def staff_home(request):
 
 
 def staff_take_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
     subjects = Subject.objects.filter(staff_id=staff)
     sessions = Session.objects.all()
@@ -52,27 +65,26 @@ def staff_take_attendance(request):
 
 @csrf_exempt
 def get_students(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     subject_id = request.POST.get('subject')
     session_id = request.POST.get('session')
     try:
         subject = get_object_or_404(Subject, id=subject_id)
         session = get_object_or_404(Session, id=session_id)
-        students = Student.objects.filter(
-            course_id=subject.course.id, session=session)
-        student_data = []
-        for student in students:
-            data = {
-                    "id": student.id,
-                    "name": student.admin.last_name + " " + student.admin.first_name
-                    }
-            student_data.append(data)
+        students = Student.objects.filter(course_id=subject.course.id, session=session)
+        student_data = [{"id": student.id, "name": f"{student.admin.last_name} {student.admin.first_name}"} for student in students]
         return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
     except Exception as e:
-        return e
+        return HttpResponse(status=500)
 
 
 @csrf_exempt
 def save_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     student_data = request.POST.get('student_ids')
     date = request.POST.get('date')
     subject_id = request.POST.get('subject')
@@ -89,12 +101,15 @@ def save_attendance(request):
             attendance_report = AttendanceReport(student=student, attendance=attendance, status=student_dict.get('status'))
             attendance_report.save()
     except Exception as e:
-        return None
+        return HttpResponse(status=500)
 
     return HttpResponse("OK")
 
 
 def staff_update_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
     subjects = Subject.objects.filter(staff_id=staff)
     sessions = Session.objects.all()
@@ -109,23 +124,24 @@ def staff_update_attendance(request):
 
 @csrf_exempt
 def get_student_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     attendance_date_id = request.POST.get('attendance_date_id')
     try:
         date = get_object_or_404(Attendance, id=attendance_date_id)
         attendance_data = AttendanceReport.objects.filter(attendance=date)
-        student_data = []
-        for attendance in attendance_data:
-            data = {"id": attendance.student.admin.id,
-                    "name": attendance.student.admin.last_name + " " + attendance.student.admin.first_name,
-                    "status": attendance.status}
-            student_data.append(data)
+        student_data = [{"id": attendance.student.admin.id, "name": f"{attendance.student.admin.last_name} {attendance.student.admin.first_name}", "status": attendance.status} for attendance in attendance_data]
         return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
     except Exception as e:
-        return e
+        return HttpResponse(status=500)
 
 
 @csrf_exempt
 def update_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     student_data = request.POST.get('student_ids')
     date = request.POST.get('date')
     students = json.loads(student_data)
@@ -133,18 +149,20 @@ def update_attendance(request):
         attendance = get_object_or_404(Attendance, id=date)
 
         for student_dict in students:
-            student = get_object_or_404(
-                Student, admin_id=student_dict.get('id'))
+            student = get_object_or_404(Student, admin_id=student_dict.get('id'))
             attendance_report = get_object_or_404(AttendanceReport, student=student, attendance=attendance)
             attendance_report.status = student_dict.get('status')
             attendance_report.save()
     except Exception as e:
-        return None
+        return HttpResponse(status=500)
 
     return HttpResponse("OK")
 
 
 def staff_apply_leave(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     form = LeaveReportStaffForm(request.POST or None)
     staff = get_object_or_404(Staff, admin_id=request.user.id)
     context = {
@@ -158,8 +176,7 @@ def staff_apply_leave(request):
                 obj = form.save(commit=False)
                 obj.staff = staff
                 obj.save()
-                messages.success(
-                    request, "Application for leave has been submitted for review")
+                messages.success(request, "Application for leave has been submitted for review")
                 return redirect(reverse('staff_apply_leave'))
             except Exception:
                 messages.error(request, "Could not apply!")
@@ -169,6 +186,9 @@ def staff_apply_leave(request):
 
 
 def staff_feedback(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     form = FeedbackStaffForm(request.POST or None)
     staff = get_object_or_404(Staff, admin_id=request.user.id)
     context = {
@@ -192,8 +212,11 @@ def staff_feedback(request):
 
 
 def staff_view_profile(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
-    form = StaffEditForm(request.POST or None, request.FILES or None,instance=staff)
+    form = StaffEditForm(request.POST or None, request.FILES or None, instance=staff)
     context = {'form': form, 'page_title': 'View/Update Profile'}
     if request.method == 'POST':
         try:
@@ -205,9 +228,9 @@ def staff_view_profile(request):
                 gender = form.cleaned_data.get('gender')
                 passport = request.FILES.get('profile_pic') or None
                 admin = staff.admin
-                if password != None:
+                if password:
                     admin.set_password(password)
-                if passport != None:
+                if passport:
                     fs = FileSystemStorage()
                     filename = fs.save(passport.name, passport)
                     passport_url = fs.url(filename)
@@ -224,8 +247,7 @@ def staff_view_profile(request):
                 messages.error(request, "Invalid Data Provided")
                 return render(request, "staff_template/staff_view_profile.html", context)
         except Exception as e:
-            messages.error(
-                request, "Error Occured While Updating Profile " + str(e))
+            messages.error(request, "Error Occurred While Updating Profile " + str(e))
             return render(request, "staff_template/staff_view_profile.html", context)
 
     return render(request, "staff_template/staff_view_profile.html", context)
@@ -233,6 +255,9 @@ def staff_view_profile(request):
 
 @csrf_exempt
 def staff_fcmtoken(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     token = request.POST.get('token')
     try:
         staff_user = get_object_or_404(CustomUser, id=request.user.id)
@@ -244,6 +269,9 @@ def staff_fcmtoken(request):
 
 
 def staff_view_notification(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
     notifications = NotificationStaff.objects.filter(staff=staff)
     context = {
@@ -254,6 +282,9 @@ def staff_view_notification(request):
 
 
 def staff_add_result(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     staff = get_object_or_404(Staff, admin=request.user)
     subjects = Subject.objects.filter(staff=staff)
     sessions = Session.objects.all()
@@ -271,8 +302,7 @@ def staff_add_result(request):
             student = get_object_or_404(Student, id=student_id)
             subject = get_object_or_404(Subject, id=subject_id)
             try:
-                data = StudentResult.objects.get(
-                    student=student, subject=subject)
+                data = StudentResult.objects.get(student=student, subject=subject)
                 data.exam = exam
                 data.test = test
                 data.save()
@@ -282,12 +312,15 @@ def staff_add_result(request):
                 result.save()
                 messages.success(request, "Scores Saved")
         except Exception as e:
-            messages.warning(request, "Error Occured While Processing Form")
+            messages.warning(request, "Error Occurred While Processing Form")
     return render(request, "staff_template/staff_add_result.html", context)
 
 
 @csrf_exempt
 def fetch_student_result(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
+
     try:
         subject_id = request.POST.get('subject')
         student_id = request.POST.get('student')
@@ -301,3 +334,4 @@ def fetch_student_result(request):
         return HttpResponse(json.dumps(result_data))
     except Exception as e:
         return HttpResponse('False')
+

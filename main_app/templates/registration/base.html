@@ -13,12 +13,21 @@
     <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+        .login-page {
+            background-image: url("{% static 'assets\images\bg\bg-login.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href=""><b>C.M.S</b></a>
+            <img src="{% static 'assets/images/icon/logo.png' %}" alt="logo" srcset="">
+            <br>
+            <b style="color: white;">Password Reset</b>
 
         </div>
         <!-- /.login-logo -->

@@ -13,8 +13,15 @@ from django.views.generic import UpdateView
 from .forms import *
 from .models import *
 
+def check_user_authentication(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to access this page.")
+        return False
+    return True
 
 def admin_home(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     total_staff = Staff.objects.all().count()
     total_students = Student.objects.all().count()
     subjects = Subject.objects.all()
@@ -87,6 +94,8 @@ def admin_home(request):
 
 
 def add_staff(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     form = StaffForm(request.POST or None, request.FILES or None)
     context = {'form': form, 'page_title': 'Add Staff'}
     if request.method == 'POST':
@@ -121,6 +130,8 @@ def add_staff(request):
 
 
 def add_student(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     student_form = StudentForm(request.POST or None, request.FILES or None)
     context = {'form': student_form, 'page_title': 'Add Student'}
     if request.method == 'POST':
@@ -155,6 +166,8 @@ def add_student(request):
 
 
 def add_course(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     form = CourseForm(request.POST or None)
     context = {
         'form': form,
@@ -177,6 +190,8 @@ def add_course(request):
 
 
 def add_subject(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     form = SubjectForm(request.POST or None)
     context = {
         'form': form,
@@ -205,6 +220,8 @@ def add_subject(request):
 
 
 def manage_staff(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     allStaff = CustomUser.objects.filter(user_type=2)
     context = {
         'allStaff': allStaff,
@@ -214,6 +231,8 @@ def manage_staff(request):
 
 
 def manage_student(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     students = CustomUser.objects.filter(user_type=3)
     context = {
         'students': students,
@@ -223,6 +242,8 @@ def manage_student(request):
 
 
 def manage_course(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     courses = Course.objects.all()
     context = {
         'courses': courses,
@@ -232,6 +253,8 @@ def manage_course(request):
 
 
 def manage_subject(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     subjects = Subject.objects.all()
     context = {
         'subjects': subjects,
@@ -241,6 +264,8 @@ def manage_subject(request):
 
 
 def edit_staff(request, staff_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     staff = get_object_or_404(Staff, id=staff_id)
     form = StaffForm(request.POST or None, instance=staff)
     context = {
@@ -290,6 +315,8 @@ def edit_staff(request, staff_id):
 
 
 def edit_student(request, student_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     student = get_object_or_404(Student, id=student_id)
     form = StudentForm(request.POST or None, instance=student)
     context = {
@@ -339,6 +366,8 @@ def edit_student(request, student_id):
 
 
 def edit_course(request, course_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     instance = get_object_or_404(Course, id=course_id)
     form = CourseForm(request.POST or None, instance=instance)
     context = {
@@ -363,6 +392,8 @@ def edit_course(request, course_id):
 
 
 def edit_subject(request, subject_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     instance = get_object_or_404(Subject, id=subject_id)
     form = SubjectForm(request.POST or None, instance=instance)
     context = {
@@ -391,6 +422,8 @@ def edit_subject(request, subject_id):
 
 
 def add_session(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     form = SessionForm(request.POST or None)
     context = {'form': form, 'page_title': 'Add Session'}
     if request.method == 'POST':
@@ -407,12 +440,16 @@ def add_session(request):
 
 
 def manage_session(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     sessions = Session.objects.all()
     context = {'sessions': sessions, 'page_title': 'Manage Sessions'}
     return render(request, "hod_template/manage_session.html", context)
 
 
 def edit_session(request, session_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     instance = get_object_or_404(Session, id=session_id)
     form = SessionForm(request.POST or None, instance=instance)
     context = {'form': form, 'session_id': session_id,
@@ -470,6 +507,8 @@ def student_feedback_message(request):
 
 @csrf_exempt
 def staff_feedback_message(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     if request.method != 'POST':
         feedbacks = FeedbackStaff.objects.all()
         context = {
@@ -491,6 +530,8 @@ def staff_feedback_message(request):
 
 @csrf_exempt
 def view_staff_leave(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     if request.method != 'POST':
         allLeave = LeaveReportStaff.objects.all()
         context = {
@@ -516,6 +557,8 @@ def view_staff_leave(request):
 
 @csrf_exempt
 def view_student_leave(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     if request.method != 'POST':
         allLeave = LeaveReportStudent.objects.all()
         context = {
@@ -540,6 +583,8 @@ def view_student_leave(request):
 
 
 def admin_view_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     subjects = Subject.objects.all()
     sessions = Session.objects.all()
     context = {
@@ -553,6 +598,8 @@ def admin_view_attendance(request):
 
 @csrf_exempt
 def get_admin_attendance(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     subject_id = request.POST.get('subject')
     session_id = request.POST.get('session')
     attendance_date_id = request.POST.get('attendance_date_id')
@@ -576,6 +623,8 @@ def get_admin_attendance(request):
 
 
 def admin_view_profile(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     admin = get_object_or_404(Admin, admin=request.user)
     form = AdminForm(request.POST or None, request.FILES or None,
                      instance=admin)
@@ -611,6 +660,8 @@ def admin_view_profile(request):
 
 
 def admin_notify_staff(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     staff = CustomUser.objects.filter(user_type=2)
     context = {
         'page_title': "Send Notifications To Staff",
@@ -620,6 +671,8 @@ def admin_notify_staff(request):
 
 
 def admin_notify_student(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     student = CustomUser.objects.filter(user_type=3)
     context = {
         'page_title': "Send Notifications To Students",
@@ -630,6 +683,8 @@ def admin_notify_student(request):
 
 @csrf_exempt
 def send_student_notification(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     id = request.POST.get('id')
     message = request.POST.get('message')
     student = get_object_or_404(Student, admin_id=id)
@@ -657,6 +712,8 @@ def send_student_notification(request):
 
 @csrf_exempt
 def send_staff_notification(request):
+    if not check_user_authentication(request):
+        return redirect('/login')
     id = request.POST.get('id')
     message = request.POST.get('message')
     staff = get_object_or_404(Staff, admin_id=id)
@@ -683,6 +740,8 @@ def send_staff_notification(request):
 
 
 def delete_staff(request, staff_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     staff = get_object_or_404(CustomUser, staff__id=staff_id)
     staff.delete()
     messages.success(request, "Staff deleted successfully!")
@@ -690,6 +749,8 @@ def delete_staff(request, staff_id):
 
 
 def delete_student(request, student_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     student = get_object_or_404(CustomUser, student__id=student_id)
     student.delete()
     messages.success(request, "Student deleted successfully!")
@@ -697,6 +758,8 @@ def delete_student(request, student_id):
 
 
 def delete_course(request, course_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     course = get_object_or_404(Course, id=course_id)
     try:
         course.delete()
@@ -708,6 +771,8 @@ def delete_course(request, course_id):
 
 
 def delete_subject(request, subject_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     subject = get_object_or_404(Subject, id=subject_id)
     subject.delete()
     messages.success(request, "Subject deleted successfully!")
@@ -715,6 +780,8 @@ def delete_subject(request, subject_id):
 
 
 def delete_session(request, session_id):
+    if not check_user_authentication(request):
+        return redirect('/login')
     session = get_object_or_404(Session, id=session_id)
     try:
         session.delete()
@@ -723,3 +790,4 @@ def delete_session(request, session_id):
         messages.error(
             request, "There are students assigned to this session. Please move them to another session.")
     return redirect(reverse('manage_session'))
+

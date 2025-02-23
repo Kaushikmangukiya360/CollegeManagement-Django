@@ -19,15 +19,91 @@
     <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <!-- Google Recaptcha     -->
+    <!-- Google Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Background Image */
         .login-page {
-            background-image: url("{% static 'assets\images\bg\bg-login.jpg' %}");
+            background-image: url("{% static 'assets/images/bg/bg-login.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            height: 100vh;
         }
+
+        /* Glass Effect for the login box */
+        .login-box {
+            background: rgba(255, 255, 255, 0.1); /* Light transparent background */
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px); /* Apply blur effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 445px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Optional subtle border */
+        }
+
+        /* Logo styling */
+        .login-logo {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Card styling */
+        .card {
+            background: rgba(255, 255, 255, 0.3); /* Slightly transparent card */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: none;
+        }
+
+        /* Input fields styling */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.3); /* Transparent background */
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            background-color: rgba(76, 175, 80, 0.9); /* Transparent button background */
+            border-color: rgba(76, 175, 80, 0.9);
+        }
+
+        .btn-success:hover {
+            background-color: rgba(76, 175, 80, 1); /* Button hover effect */
+            border-color: rgba(76, 175, 80, 1);
+        }
+
+        /* Input Group Text (icons inside fields) */
+        .input-group-text {
+            background-color: rgba(0, 0, 0, 0.1); /* Slightly transparent icon background */
+        }
+
+        /* Error message styling */
+        .alert {
+            background-color: rgba(255, 0, 0, 0.3); /* Transparent error message background */
+            color: white;
+        }
+
+        /* Footer Styling */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+
+
     </style>
+
 </head>
 
 <body class="hold-transition login-page">
@@ -35,18 +111,15 @@
         <div class="login-logo">
             <img src="{% static 'assets/images/icon/logo.png' %}" alt="logo" srcset="">
             <br><strong style="color:white;">Login</strong>
-
         </div>
-        <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                {% comment %} <p class="login-box-msg">Sign in to start your session</p> {% endcomment %}
                 {% if messages %}
                 <div class="col-12">
                     {% for message in messages %}
                     {% if message.tags == 'error' %}
-                    <div class="alert alert-danger text-center ">
-                        {{message }}
+                    <div class="alert alert-danger text-center">
+                        <strong style="color:red;">{{ message }}</strong>
                     </div>
                     {% endif %}
                     {% endfor %}
@@ -72,7 +145,6 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="g-recaptcha" data-sitekey="6LfswtgZAAAAAJ7bhwqZZtDpBsc75ekH6FWA4Fnt"></div>
-
                     </div>
                     <div class="row">
                         <div class="col-8">
@@ -83,26 +155,23 @@
                                 </label>
                             </div>
                         </div>
-                        <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-success btn-block">Log In</button>
                         </div>
-
-
-                        <!-- /.col -->
                     </div>
                 </form>
-
-
                 <p class="mb-1">
-                    {% comment %} <a href="{% url 'password_reset' %}">Forgot Password?</a> {% endcomment %}
+                    <!-- Uncomment and add link for forgot password -->
+                    <!-- <a href="{% url 'password_reset' %}">Forgot Password?</a> -->
                 </p>
-
             </div>
-            <!-- /.login-card-body -->
         </div>
     </div>
-    <!-- /.login-box -->
+
+    <!-- Footer -->
+    <footer>
+        By Kaushik Mangukiya, Ujas Mungla, Renish Khoyani
+    </footer>
 
     <!-- jQuery -->
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>

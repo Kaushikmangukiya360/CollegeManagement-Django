@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>C.M.S | Log In</title>
+    <title>S.V.Patel | Log In</title>
+    <link rel="shortcut icon" href="static/assets/images/icon/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -20,12 +21,20 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Google Recaptcha     -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        .login-page {
+            background-image: url("{% static 'assets/images/background.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href=""><b>College</b> Management System</a>
+            <img src="{% static 'assets/images/icon/logo.png' %}" alt="logo" srcset="">
+            <br><strong>Login</strong>
 
         </div>
         <!-- /.login-logo -->
@@ -86,7 +95,7 @@
 
 
                 <p class="mb-1">
-                    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                    {% comment %} <a href="{% url 'password_reset' %}">Forgot Password?</a> {% endcomment %}
                 </p>
 
             </div>

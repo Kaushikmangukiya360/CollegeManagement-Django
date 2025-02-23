@@ -11,6 +11,17 @@ from .models import Attendance, Session, Subject
 
 # Create your views here.
 
+def index(request):
+    return render(request, 'site_view/index.html')
+
+def about_page(request):
+    return render(request, 'site_view/about.html')
+
+def teacher_page(request):
+    return render(request, 'site_view/teacher.html')
+
+def contact_page(request):
+    return render(request, 'site_view/contact.html')
 
 def login_page(request):
     if request.user.is_authenticated:

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock title %} SV Patel College</title>
+    <link rel="shortcut icon" href="{% static 'assets/images/icon/logo.png'%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css'%} ">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%} ">
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css'%} ">
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'%} ">
+    <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css'%} ">
+    <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css'%} ">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {% block custom_css %}
+
+    {% endblock custom_css %}
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/default-css.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+
+    <link rel="stylesheet" id="triggerColor" href="{% static 'assets/css/triggerplate/color-0.css' %}">
+
+    <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <header id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="row d-flex flex-center">
+                    <div class="col-sm-8">
+                        <div class="ht-address">
+                            <ul>
+                                <li><i class="fa fa-phone"></i>+ 91 70690 17730</li>
+                                <li><i class="fa fa-envelope"></i>info@svpatel.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="ht-social">
+                            <ul>
+                                <li><a href="https://www.facebook.com/svpcsbm"><i class="fa fa-facebook"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-bottom-inner">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-sm-9">
+                            <div class="logo">
+                                <a href="{% url "index" %}"><img class="logoImg" src="{% static 'assets/images/icon/logo.png' %}" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-7 d-none d-lg-block">
+                            <div class="main-menu">
+                                <nav>
+                                    <ul id="m_menu_active">
+                                        <li class="{% block isActiveHome %}{% endblock isActiveHome %}"><a href="{% url "index" %}">Home</a></li>
+                                        <li class="{% block isActiveAbout %}{% endblock isActiveAbout %}"><a href="{% url "about" %}">About</a></li>
+                                        <li class="{% block isActiveTeacher %}{% endblock isActiveTeacher %}"><a href="{% url "teacher" %}">Teachers</a></li>
+                                        <li class="{% block isActiveContact %}{% endblock isActiveContact %}"><a href="{% url "contact" %}">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 col-lg-2 col-sm-3">
+                            <div class="hb-right">
+                                <ul> 
+                                <a href="{% url "login_page" %}">
+                                    <li><i class="fa fa-user"></i></li>
+                                </a>
+                                </ul>
+                            </div>                        </div>
+                        <div class="col-12 d-block d-lg-none">
+                            <div id="mobile_menu"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock content %}
+
+    <footer>
+        <div class="footer-top has-color pt--120 pb--30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="widget widget-company">
+                            <a href="index.html"><img src="static/assets/images/icon/logo.png" alt="image"></a>
+                            <div class="address">
+                                <h6>COLLEGE ADDRESS</h6>
+                                <p>Sumul Dairy Rd, near I C Gandhi school, Haripura, Surat, Gujarat 395008
+                                </p>
+                            </div>
+                            <ul class="social">
+                                <li><a href="https://www.facebook.com/svpcsbm"><i class="fa fa-facebook"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="widget footer-link">
+                            <h4 class="fwidget-title mb-5 pb-3 primary-color">Footer Menu</h4> 
+                            <ul>
+                                <li><a href="{% url "about" %}"><i class="fa fa-arrow-right"></i>About Us</a></li>
+                                <li><a href="{% url "teacher" %}"><i class="fa fa-arrow-right"></i>Meet out Teachers</a></li>
+                                <li><a href="{% url "login_page" %}"><i class="fa fa-arrow-right"></i>Student Login</a></li>
+                                <li><a href="{% url "login_page" %}"><i class="fa fa-arrow-right"></i>Staff Login</a></li>
+                                <li><a href="{% url "contact" %}"><i class="fa fa-arrow-right"></i>Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="widget widget-opening">
+                            <h4 class="fwidget-title mb-5 pb-3 primary-color">Working Day & time</h4>
+                            <p>College office is open from Monday to Saturday from 10:30 am to 3:00 pm.</p>
+                           <ul>
+                                <li><span>Mon - Sat :</span>9:30 am - 5:00 pm</li>
+                                <li><span>Sunday :</span>Closed</li>
+                            </ul>
+                        </div>
+                        <div class="address">
+                            <h6>BUSINESS PHONE</h6>
+                            <p>+91 72290 72820</p>
+                        </div>
+                        <div class="address">
+                            <h6>BUSINESS EMAIL</h6>
+                            <p>info@svpatel.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; {% now "Y" %} - <strong>College Management System</strong>
+                    In Python Django
+                    <br> By Kaushik Mangukiya, Ujas Mungla, Renish Khoyani
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'assets/js/vendor/jquery-2.2.4.min.js' %}"> </script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"> </script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"> </script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"> </script>
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"> </script>
+    <script src="{% static 'assets/js/plugins.js' %}"> </script>
+    <script src="{% static 'assets/js/scripts.js' %}"> </script>
+</body>
+</html>

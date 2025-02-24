@@ -21,6 +21,8 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Google Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+
     <style>
         body {
             margin: 0;
@@ -101,6 +103,38 @@
             text-align: center;
         }
 
+        #preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 9999;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            background-color: #000;
+        }
+
+        #preloader  .loader{
+            margin: auto;
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: ldrrotating 1000ms linear 0s infinite;
+        }
+        @keyframes ldrrotating{
+            0%{
+                transform: rotate(0deg)scale(1);
+            }
+            50%{
+                transform: rotate(180deg)scale(1.1);
+            }
+            100%{
+                transform: rotate(360deg)scale(1);
+            }
+        }
 
     </style>
 
@@ -173,13 +207,11 @@
         By Kaushik Mangukiya, Ujas Mungla, Renish Khoyani
     </footer>
 
-    <!-- jQuery -->
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-    <!-- Bootstrap 4 -->
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- AdminLTE App -->
     <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
-
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js'%} "></script>
+    <script src="{% static 'assets/js/scripts.js'%}"></script>
 </body>
 
 </html>

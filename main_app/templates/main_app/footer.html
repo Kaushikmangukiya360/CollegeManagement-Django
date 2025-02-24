@@ -1,7 +1,73 @@
 <footer class="main-footer">
-    &copy; {% now "Y" %} - <strong>College Management System</strong>
-    In Python Django
-    <div class="float-right d-none d-sm-inline-block">
-       By Kaushik Mangukiya, Ujas Mungla, Renish Khoyani
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 text-center text-md-left">
+                &copy; {% now "Y" %} - <strong>College Management System</strong> in Python Django
+            </div>
+            <div class="col-12 col-md-6 text-center text-md-right">
+                <span class="d-none d-sm-inline-block">
+                    Developed by <strong>Kaushik Mangukiya</strong>, <strong>Ujas Mungla</strong>, and <strong>Renish Khoyani</strong>
+                </span>
+            </div>
+        </div>
     </div>
 </footer>
+
+<style>
+    /* Modern Footer Styling */
+    .main-footer {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: #fff;
+        padding: 15px 20px;
+        font-size: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1000;
+    }
+
+    .main-footer a {
+        color: #1abc9c;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .main-footer a:hover {
+        color: #16a085;
+    }
+
+    .main-footer strong {
+        font-weight: 600;
+        color: #1abc9c;
+    }
+
+    .main-footer .container-fluid {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .main-footer .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .main-footer .text-center {
+        text-align: center;
+    }
+
+    .main-footer .text-md-left {
+        text-align: left;
+    }
+
+    .main-footer .text-md-right {
+        text-align: right;
+    }
+
+    @media (max-width: 767.98px) {
+        .main-footer .col-12 {
+            text-align: center !important;
+            margin-bottom: 10px;
+        }
+    }
+</style>

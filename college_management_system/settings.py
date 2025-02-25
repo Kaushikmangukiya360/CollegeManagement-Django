@@ -29,7 +29,8 @@ SECRET_KEY = 'f2zx8*lb*em*-*b+!&1lpp&$_9q9kmkar+l3x90do@s(+sr&x7'  # Consider us
 DEBUG = True
 
 # ALLOWED_HOSTS = ['smswithdjango.herokuapp.com']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://n0hctcdf-12345.inc1.devtunnels.ms']
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://n0hctcdf-12345.inc1.devtunnels.ms']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 
 # Application definition
 
@@ -86,22 +87,22 @@ WSGI_APPLICATION = 'college_management_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'django_svp',
-    #     # 'USER': os.environ.get('DB_USER'),
-    #     # 'PASSWORD': os.environ.get('DB_PASS'),
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306'
-    # }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.mysql',
+#     #     'NAME': 'django_svp',
+#     #     # 'USER': os.environ.get('DB_USER'),
+#     #     # 'PASSWORD': os.environ.get('DB_PASS'),
+#     #     'USER': 'root',
+#     #     'PASSWORD': '',
+#     #     'HOST': '127.0.0.1',
+#     #     'PORT': '3306'
+#     # }
+# }
 
 DB_USER = 'root'
 DB_PASS = ''
@@ -185,3 +186,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')

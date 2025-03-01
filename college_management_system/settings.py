@@ -30,7 +30,8 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['smswithdjango.herokuapp.com']
 # ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://n0hctcdf-12345.inc1.devtunnels.ms']
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+# ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -87,22 +88,22 @@ WSGI_APPLICATION = 'college_management_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.mysql',
-#     #     'NAME': 'django_svp',
-#     #     # 'USER': os.environ.get('DB_USER'),
-#     #     # 'PASSWORD': os.environ.get('DB_PASS'),
-#     #     'USER': 'root',
-#     #     'PASSWORD': '',
-#     #     'HOST': '127.0.0.1',
-#     #     'PORT': '3306'
-#     # }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'django_svp',
+    #     # 'USER': os.environ.get('DB_USER'),
+    #     # 'PASSWORD': os.environ.get('DB_PASS'),
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306'
+    # }
+}
 
 DB_USER = 'root'
 DB_PASS = ''
@@ -168,19 +169,21 @@ AUTH_USER_MODEL = 'main_app.CustomUser'
 AUTHENTICATION_BACKENDS = ['main_app.EmailBackend.EmailBackend']
 TIME_ZONE = 'Asia/Kolkata'
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_mails")
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_mails")
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
 
 # EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS') 
-EMAIL_HOST_USER = 'kaushikmangukiya.bca@gmail.com'
-EMAIL_HOST_PASSWORD = '123@Kaushik@123'
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "kaushikmangukiya.bca@gmail.com"
+# EMAIL_HOST_USER = 'kaushikmangukiya.bca@gmail.com'
+# EMAIL_HOST_PASSWORD = '123@Kaushik@123'
+# # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = "kaushikmangukiya.bca@gmail.com"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -188,6 +191,5 @@ prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 
-
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+# STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')

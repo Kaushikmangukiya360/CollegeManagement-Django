@@ -5546,7 +5546,7 @@ a.close.disabled {
   outline: 0;
 }
 
-.modal-backdrop {
+/* .error-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -5556,13 +5556,13 @@ a.close.disabled {
   background-color: #000;
 }
 
-.modal-backdrop.fade {
+.error-modal-backdrop.fade {
   opacity: 0;
 }
 
-.modal-backdrop.show {
+.error-modal-backdrop.show {
   opacity: 0.5;
-}
+} */
 
 .modal-header {
   display: flex;

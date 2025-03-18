@@ -39,7 +39,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        {% comment %}
+                        {% comment %} 
 
                         <div>
                             <label>Attendance Date</label>
@@ -97,14 +97,25 @@ if (subject.length  == 0 || session.length == 0){
                         div_data += "<div class='col-lg-3'><div class='form-check custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' checked='checked' name='student_data[]' value=" + json_data[key]['id'] + " id='checkbox" + json_data[key]['id'] + "' /> <label for='checkbox" + json_data[key]['id'] + "' class='custom-control-label'>" + json_data[key]['name'] + "</label></div> </div>"
                     }
                     div_data += "</div></div>"
-                    div_data += "<div class='form-group'><button id='save_attendance' class='btn btn-success' type='button'>Save Attendance</button></div>"
-                    $("#student_data").html(div_data)
+                    div_data += `
+                    <div class="form-group text-center">
+                        <button id="select_all" class="btn btn-primary m-1" type="button">Select All</button>
+                        <button id="unselect_all" class="btn btn-secondary m-1" type="button">Unselect All</button>
+                        <button id="save_attendance" class="btn btn-success m-1" type="button">Save Attendance</button>
+                    </div>`;
+                    $("#student_data").html(div_data);
                 }
             }).fail(function (response) {
                 alert("Error in fetching students")
             })
 
 
+            $(document).on('click', '#select_all', function () {
+                $("input[name='student_data[]']").prop('checked', true);
+            })
+            $(document).on('click', '#unselect_all', function () {
+                $("input[name='student_data[]']").prop('checked', false);
+            })
             $(document).on('click', '#save_attendance', function () {
                 $(this).attr("disabled","disabled")
                 $(this).text("Saving Attendance Data...")

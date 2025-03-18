@@ -48,7 +48,8 @@ def student_home(request):
         'data_present': data_present,
         'data_absent': data_absent,
         'data_name': subject_name,
-        'page_title': 'Student Homepage'
+        'id' : student.admin.id,
+        'page_title': f'{student.admin.first_name} {student.admin.last_name} ({student.course})',
 
     }
     return render(request, 'student_template/home_content.html', context)
@@ -161,7 +162,7 @@ def student_view_profile(request):
                 address = form.cleaned_data.get('address')
                 gender = form.cleaned_data.get('gender')
                 passport = request.FILES.get('profile_pic') or None
-                admin = student.admin
+                admin = student.admin6
                 if password != None:
                     admin.set_password(password)
                 if passport != None:

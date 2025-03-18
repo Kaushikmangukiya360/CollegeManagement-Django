@@ -271,6 +271,7 @@ def edit_staff(request, staff_id):
     context = {
         'form': form,
         'staff_id': staff_id,
+        'id' : staff.admin.id,
         'page_title': 'Edit Staff'
     }
     if request.method == 'POST':
@@ -322,6 +323,7 @@ def edit_student(request, student_id):
     context = {
         'form': form,
         'student_id': student_id,
+        'id' : student.admin.id,
         'page_title': 'Edit Student'
     }
     if request.method == 'POST':
@@ -592,7 +594,7 @@ def admin_view_attendance(request):
         'sessions': sessions,
         'page_title': 'View Attendance'
     }
-
+    
     return render(request, "hod_template/admin_view_attendance.html", context)
 
 

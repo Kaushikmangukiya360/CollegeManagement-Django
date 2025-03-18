@@ -37,7 +37,8 @@
                                  
                                       
                                       {% if leave.status == 0 %}
-                                           <td> <button data-toggle = "modal" data-target = "#reply_modal" value="{{leave.id}}" class="btn btn-success reply_open_modal">Reply</button>
+                                           <td>
+                                               <button data-toggle = "modal" data-target = "#reply_modal" value="{{leave.id}}" class="btn btn-sm btn-outline-primary reply_open_modal"><i class="fas fa-reply"></i> Reply</button>
 {% elif leave.status == -1 %}
 <td><span  class='badge badge-danger'>Rejected</span></td>
 {% else %}
@@ -86,11 +87,11 @@
         </div>
         
         <div class = "modal-footer">
-            <button type = "button" class = "btn btn-danger" data-dismiss = "modal">
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal">
                 Close
             </button>
             
-            <button id="reply_btn" class="btn btn-success btn-block">Submit</button>
+            <button id="reply_btn" class="btn btn-primary btn-block">Submit</button>
          
          </div>
          

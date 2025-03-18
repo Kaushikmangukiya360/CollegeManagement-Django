@@ -36,7 +36,8 @@ def staff_home(request):
         subject_list.append(subject.name)
         attendance_list.append(attendance_count)
     context = {
-        'page_title': f'Staff Panel - {staff.admin.last_name} ({staff.course})',
+        'id': staff.admin.id,
+        'page_title': f'{staff.admin.first_name} {staff.admin.last_name} ({staff.course})',
         'total_students': total_students,
         'total_attendance': total_attendance,
         'total_leave': total_leave,
@@ -74,7 +75,7 @@ def get_students(request):
         subject = get_object_or_404(Subject, id=subject_id)
         session = get_object_or_404(Session, id=session_id)
         students = Student.objects.filter(course_id=subject.course.id, session=session)
-        student_data = [{"id": student.id, "name": f"{student.admin.last_name} {student.admin.first_name}"} for student in students]
+        student_data = [{"id": student.id, "name": f"GR ID: {student.admin.id}  - {student.admin.last_name} {student.admin.first_name}"} for student in students]
         return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
     except Exception as e:
         return HttpResponse(status=500)

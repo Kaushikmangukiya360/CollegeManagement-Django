@@ -1,6 +1,7 @@
 {% extends 'main_app/base.html' %}
 {% load static %}
-{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block page_title %}ID : {{id}} - {{page_title}} {% endblock page_title %}
+
 {% block content %}
 <section class="content">
     <div class="container-fluid">
@@ -11,7 +12,6 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{total_students}}</h3>
-
                         <p>Total Students</p>
                     </div>
                     <div class="icon">
@@ -26,7 +26,6 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{total_attendance}}</h3>
-
                         <p>Total Attendance Taken</p>
                     </div>
                     <div class="icon">

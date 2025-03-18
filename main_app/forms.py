@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.widgets import DateInput, TextInput
-
+from django.core.validators import RegexValidator   
 from .models import *
 
 
@@ -16,7 +16,16 @@ class CustomUserForm(FormSettings):
     email = forms.EmailField(required=True)
     gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')])
     first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    first_name = forms.CharField(
+        required=True,
+        validators=[RegexValidator(regex='^[a-zA-Z ]+$', message="First name should only contain letters", code='invalid')],
+        widget=forms.TextInput(attrs={'pattern': '[a-zA-Z ]+', 'title': 'First name should only contain letters'})
+    )
+    last_name = forms.CharField(
+        required=True,
+        validators=[RegexValidator(regex='^[a-zA-Z ]+$', message="Last name should only contain letters", code='invalid')],
+        widget=forms.TextInput(attrs={'pattern': '[a-zA-Z ]+', 'title': 'Last name should only contain letters'})
+    )
     address = forms.CharField(widget=forms.Textarea)
     password = forms.CharField(widget=forms.PasswordInput)
     widget = {
@@ -33,7 +42,7 @@ class CustomUserForm(FormSettings):
             for field in CustomUserForm.Meta.fields:
                 self.fields[field].initial = instance.get(field)
             if self.instance.pk is not None:
-                self.fields['password'].widget.attrs['placeholder'] = "Fill this only if you wish to update password"
+                self.fields['password'].widget.attrs['placeholder'] = "Fill this only if you wish to update password, Then you will logout after updating password"
 
     def clean_email(self, *args, **kwargs):
         formEmail = self.cleaned_data['email'].lower()
@@ -52,7 +61,7 @@ class CustomUserForm(FormSettings):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'gender',  'password','profile_pic', 'address' ]
+        fields = ['first_name', 'last_name', 'email', 'gender', 'password','profile_pic', 'address' ]
 
 
 class StudentForm(CustomUserForm):
@@ -63,6 +72,10 @@ class StudentForm(CustomUserForm):
         model = Student
         fields = CustomUserForm.Meta.fields + \
             ['course', 'session']
+        labels = {
+            'course': 'Course',
+            'session': 'Session/ Semester',
+        }
 
 
 class AdminForm(CustomUserForm):
@@ -111,10 +124,11 @@ class SessionForm(FormSettings):
         model = Session
         fields = '__all__'
         widgets = {
+            'name': forms.TextInput(attrs={'autofocus': 'autofocus'}),
             'start_year': DateInput(attrs={'type': 'date'}),
             'end_year': DateInput(attrs={'type': 'date'}),
         }
-
+        
 
 class LeaveReportStaffForm(FormSettings):
     def __init__(self, *args, **kwargs):
@@ -126,6 +140,7 @@ class LeaveReportStaffForm(FormSettings):
         widgets = {
             'date': DateInput(attrs={'type': 'date'}),
         }
+    
 
 
 class FeedbackStaffForm(FormSettings):
@@ -186,10 +201,24 @@ class EditResultForm(FormSettings):
     def __init__(self, *args, **kwargs):
         super(EditResultForm, self).__init__(*args, **kwargs)
 
+    def clean_test(self):
+        test = self.cleaned_data.get('test')
+        if test < 0 or test > 30:
+            raise forms.ValidationError("Test score must be between 0 and 30.")
+        return test
+
+    def clean_exam(self):
+        exam = self.cleaned_data.get('exam')
+        if exam < 0 or exam > 70:
+            raise forms.ValidationError("Exam score must be between 0 and 70.")
+        return exam
+
     class Meta:
         model = StudentResult
         fields = ['session_year', 'subject', 'student', 'test', 'exam']
         labels = {
             'test': 'Internal Exam (Mid-Sem Exam)',
             'exam': 'External Exam (Final Exam)',
+            'session_year': 'Session/Sementer'
         }
+

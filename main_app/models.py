@@ -28,18 +28,19 @@ class CustomUserManager(UserManager):
 
 
 class Session(models.Model):
+    name = models.CharField(max_length=120)
     start_year = models.DateField()
     end_year = models.DateField()
 
     def __str__(self):
-        return "From " + str(self.start_year) + " to " + str(self.end_year)
+        return self.name + " (" + str(self.start_year.year) + "-" + str(self.end_year.year) + ")"
 
 
 class CustomUser(AbstractUser):
     USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     GENDER = [("M", "Male"), ("F", "Female")]
     
-    
+    id = models.AutoField(primary_key=True)
     username = None  # Removed username, using email instead
     email = models.EmailField(unique=True)
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
@@ -54,7 +55,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.last_name + ", " + self.first_name
+        return self.first_name + " " + self.last_name
 
 
 class Admin(models.Model):
@@ -77,7 +78,7 @@ class Student(models.Model):
     session = models.ForeignKey(Session, on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
-        return self.admin.last_name + ", " + self.admin.first_name
+        return "(GR ID :" + str(self.admin.id) + ") " +  self.admin.first_name + " " + self.admin.last_name
 
 
 class Staff(models.Model):
@@ -85,7 +86,7 @@ class Staff(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.admin.last_name + " " + self.admin.first_name
+        return "(Staff ID :" + str(self.admin.id) + ") " +  self.admin.first_name + " " + self.admin.last_name
 
 
 class Subject(models.Model):
@@ -96,7 +97,7 @@ class Subject(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.name + " (" + self.course.name + ")"
 
 
 class Attendance(models.Model):

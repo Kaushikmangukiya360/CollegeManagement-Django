@@ -3,14 +3,21 @@
 {% block page_title %}{{page_title}}{% endblock page_title %}
 
 {% block content %}
-
-<section class="content">
+    <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">{{page_title}}</h3>
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">{{page_title}}</h3>
+                            <div>
+                                <a href="{% url 'add_course' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus mr-1"></i> Add Course
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
